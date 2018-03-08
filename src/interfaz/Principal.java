@@ -18,9 +18,13 @@ import javax.swing.JLabel;
 public class Principal extends javax.swing.JFrame {
 
     IA aux;
+    Movimientos auxMovimientos = new Movimientos();
+    
     int[][] arreglo;
     //ruta mario
     String auxRutaMario = "/img/2.png";
+    int[] coord;
+    int[] posicionActual;
     
     
     /**
@@ -50,9 +54,11 @@ public class Principal extends javax.swing.JFrame {
         //Agrega una opicion vacia al combobox auxiliar
         comboboxAux.addItem("");
         
+        coord = new int[2];
+        
         cargarImagenes();
         
-        
+        posicionActual = auxMovimientos.mario(arreglo);
 
     }
     
@@ -74,6 +80,10 @@ public class Principal extends javax.swing.JFrame {
             auxLabel.setIcon(iconAux);
             tablero.add(auxLabel);
             auxLabel.setBounds(50*j, 50*i, 50, 50);
+            if (arreglo[i][j]==2){
+                coord[0] = 50*j;
+                coord[1] = 50*i;
+            }
                 
             }
         }
@@ -81,7 +91,8 @@ public class Principal extends javax.swing.JFrame {
     
     
     public void modificarCamino(ArrayList<Integer> camino){
-        
+            
+            
             JLabel auxLabel = new JLabel();
             URL urlAux = this.getClass().getResource(auxRutaMario);
             ImageIcon iconAux = new ImageIcon(urlAux); 
@@ -90,27 +101,53 @@ public class Principal extends javax.swing.JFrame {
             
             int operador=0;
             
-            for (int i = camino.size()-1; i >= 0; i--) {
+            
+            
+            int pos = posicionActual[0]*arreglo.length + posicionActual[1];
+            
+            for (int i = camino.size()-1; i >=0 ; i--) {
                operador = camino.get(i);
                 switch (operador) {
-                    case 4:
-                        tablero.remove(0);
-                        tablero.add(auxLabel,0);
-                        auxLabel.setBounds(0, 0, 50, 50);
-                        System.out.println("entre 4");
-                        break;
-                        
+                    
                     case 1:
-                        tablero.remove(5);
-                        tablero.add(auxLabel, 5);
-                        auxLabel.setBounds(250, 250, 50, 50);
+                        pos = pos-10;
+                        coord[1] = coord[1]-50;
+                        tablero.add(auxLabel, pos);
+                        auxLabel.setBounds(coord[0], coord[1], 50, 50);
                         System.out.println("entre 1");
                         break;
+                        
+                    case 2:
+                        pos = pos+10;
+                        coord[1] = coord[1]+50;
+                        tablero.add(auxLabel, pos);
+                        auxLabel.setBounds(coord[0], coord[1], 50, 50);
+                        System.out.println("entre 2");
+                        break;
+                        
+                    case 3:
+                        pos = pos-1;
+                        coord[0] = coord[0]-50;
+                        tablero.add(auxLabel, pos);
+                        auxLabel.setBounds(coord[0], coord[1], 50, 50);
+                        System.out.println("entre 3");
+                        break;
+                        
+                    case 4:
+                        pos = pos+1;
+                        coord[0] = coord[0]+50;
+                        tablero.add(auxLabel, pos);
+                        auxLabel.setBounds(coord[0], coord[1], 50, 50);
+                        System.out.println("entre 4");
+                        break;                 
+                        
+                        
                     default:
                         throw new AssertionError();
+                        
                 }
                 
-                try {
+                try{
                     Thread.sleep(500);
                 } catch (Exception e) {
                 }
@@ -224,13 +261,23 @@ public class Principal extends javax.swing.JFrame {
 
     private void botonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonStartActionPerformed
         // TODO add your handling code here:
-        ArrayList<Integer> camino = new ArrayList<>();
-        camino.add(4);
-        camino.add(1);
-        if (combobox.getSelectedIndex() == 0) {
+        int pos = posicionActual[0]*arreglo.length + posicionActual[1];
+        JLabel auxLabel2 = new JLabel();
             
+        String auxRuta2 = "/img/0.png";
+        URL urlAux2 = this.getClass().getResource(auxRuta2);
+        ImageIcon iconAux2 = new ImageIcon(urlAux2);
+        auxLabel2.setIcon(iconAux2);
+        tablero.remove(pos);
+        tablero.add(auxLabel2);
+        auxLabel2.setBounds(coord[0], coord[1], 50, 50);
+        
+        Amplitud amplitud = new Amplitud();
+        if (combobox.getSelectedIndex() == 0) {
             if (comboboxAux.getSelectedIndex() == 0) {
-                modificarCamino(camino);
+                
+                amplitud.crearArbol();
+                modificarCamino(amplitud.getCaminoAmplitud());
             }
             
         }

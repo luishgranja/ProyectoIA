@@ -6,6 +6,7 @@
 package ia;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
@@ -13,8 +14,10 @@ import java.util.ArrayList;
  */
 public class Movimientos {
     
+ArrayList<Integer> movimientos;
+
     public Movimientos(){
-        
+        movimientos  = new ArrayList<Integer>(); 
     }
     
     public ArrayList<Integer> posibilidades(int matriz[][], int i, int j){
@@ -69,12 +72,11 @@ public class Movimientos {
     }
     
     public ArrayList<Integer> miCamino(Nodo nodo){
-        ArrayList<Integer> movimientos = new ArrayList<Integer>();
-        System.out.println(nodo.getOperador());
+        
         movimientos.add(nodo.getOperador());
         if(nodo.getPadre().getPadre()!=null)
             miCamino(nodo.getPadre());
-        return movimientos;  
+        return movimientos;
     }
     
 }

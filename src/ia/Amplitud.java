@@ -19,7 +19,7 @@ public class Amplitud {
     Nodo aux;
     ArrayList<Integer> posMov;
     Boolean estado = false;
-    Principal test;
+    ArrayList<Integer> caminoAmplitud;
     
     
     public Amplitud(){
@@ -30,8 +30,8 @@ public class Amplitud {
         mario = indicaciones.mario(matriz);
         aux = new Nodo(false,null,0,0,0,mario[0], mario[1]);
         arbol.add(aux);
+        caminoAmplitud = new ArrayList<Integer>();
         posMov = new ArrayList<Integer>();
-        test = new Principal();
         
     }
     
@@ -76,14 +76,20 @@ public class Amplitud {
                 }
                 aux = new Nodo(estado, arbol.get(k), lado, i+1, 0, arbol.get(k).getpX()+x, arbol.get(k).getpY()+y);
                 if(estado)
-                    indicaciones.miCamino(aux);
+                    caminoAmplitud = indicaciones.miCamino(aux);           
                 arbol.add(aux);
             }
         }
+        
+        
     }
     
     public void crearArbol(){ 
         expandir(arbol.get(0)); //expande el padre
+    }
+    
+    public ArrayList<Integer> getCaminoAmplitud(){
+        return caminoAmplitud;
     }
     
 }
