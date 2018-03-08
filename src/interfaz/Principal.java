@@ -86,43 +86,37 @@ public class Principal extends javax.swing.JFrame {
             URL urlAux = this.getClass().getResource(auxRutaMario);
             ImageIcon iconAux = new ImageIcon(urlAux); 
             
-            
             auxLabel.setIcon(iconAux);
             
             int operador=0;
+            
             for (int i = camino.size()-1; i >= 0; i--) {
                operador = camino.get(i);
                 switch (operador) {
                     case 4:
                         tablero.remove(0);
-                        tablero.add(auxLabel);
+                        tablero.add(auxLabel,0);
                         auxLabel.setBounds(0, 0, 50, 50);
                         System.out.println("entre 4");
                         break;
                         
                     case 1:
                         tablero.remove(5);
-                        tablero.add(auxLabel);
-                        auxLabel.setBounds(0, 0, 50, 50);
+                        tablero.add(auxLabel, 5);
+                        auxLabel.setBounds(250, 250, 50, 50);
                         System.out.println("entre 1");
-                        
                         break;
                     default:
                         throw new AssertionError();
                 }
                 
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 } catch (Exception e) {
                 }
                 
                 this.paintAll(this.getGraphics());
         }
-        
-            
-        
-        
-        
     }
 
     /**
