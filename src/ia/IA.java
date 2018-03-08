@@ -28,8 +28,8 @@ public class IA {
        cargarCamino.cargarArchivo();
        Principal gui = new Principal();
        gui.setVisible(true);
-       CostoUniforme a = new CostoUniforme();
-       a.crearArbol(); 
+       //CostoUniforme a = new CostoUniforme();
+       //a.crearArbol(); 
     
     }
     
