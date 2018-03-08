@@ -18,10 +18,20 @@ import javax.swing.JLabel;
 public class Principal extends javax.swing.JFrame {
 
     IA aux;
+    int[][] arreglo;
+    //ruta mario
+    String auxRutaMario = "/img/2.png";
+    
+    
     /**
-     * Creates new form principal
+     * CONSTRUCTOR
      */
     public Principal() {
+        
+        
+        
+        arreglo = cargarCamino.cargarArchivo();
+        
         initComponents();
         setResizable(false);
         this.setTitle("MARIO SMART");
@@ -40,9 +50,16 @@ public class Principal extends javax.swing.JFrame {
         //Agrega una opicion vacia al combobox auxiliar
         comboboxAux.addItem("");
         
+        cargarImagenes();
+        
+        
+
+    }
+    
+    public void cargarImagenes(){
+        
         //agrega las imagenes al tablero
-        int[][] arreglo;
-        arreglo = cargarCamino.cargarArchivo();
+       
         for (int i = 0; i < arreglo.length ; i++) {
             
             for (int j = 0; j < arreglo[i].length; j++) {
@@ -60,30 +77,46 @@ public class Principal extends javax.swing.JFrame {
                 
             }
         }
-
     }
+    
     
     public void modificarCamino(ArrayList<Integer> camino){
         
             JLabel auxLabel = new JLabel();
-            String auxRuta = "/img/2.png";
-            URL urlAux = this.getClass().getResource(auxRuta);
-            ImageIcon iconAux = new ImageIcon(urlAux);
+            URL urlAux = this.getClass().getResource(auxRutaMario);
+            ImageIcon iconAux = new ImageIcon(urlAux); 
+            
+            
             auxLabel.setIcon(iconAux);
-            tablero.add(auxLabel);
-            auxLabel.setBounds(150, 0, 50, 50);
+            
             int operador=0;
             for (int i = camino.size()-1; i >= 0; i--) {
                operador = camino.get(i);
                 switch (operador) {
                     case 4:
-                         
-                         
+                        tablero.remove(0);
+                        tablero.add(auxLabel);
+                        auxLabel.setBounds(0, 0, 50, 50);
+                        System.out.println("entre 4");
+                        break;
+                        
+                    case 1:
+                        tablero.remove(5);
+                        tablero.add(auxLabel);
+                        auxLabel.setBounds(0, 0, 50, 50);
+                        System.out.println("entre 1");
                         
                         break;
                     default:
                         throw new AssertionError();
                 }
+                
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                }
+                
+                this.paintAll(this.getGraphics());
         }
         
             
@@ -197,6 +230,16 @@ public class Principal extends javax.swing.JFrame {
 
     private void botonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonStartActionPerformed
         // TODO add your handling code here:
+        ArrayList<Integer> camino = new ArrayList<>();
+        camino.add(4);
+        camino.add(1);
+        if (combobox.getSelectedIndex() == 0) {
+            
+            if (comboboxAux.getSelectedIndex() == 0) {
+                modificarCamino(camino);
+            }
+            
+        }
     }//GEN-LAST:event_botonStartActionPerformed
 
     private void comboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboboxActionPerformed
