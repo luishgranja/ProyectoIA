@@ -32,8 +32,6 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         
-        
-        
         arreglo = cargarCamino.cargarArchivo();
         
         initComponents();
@@ -58,6 +56,25 @@ public class Principal extends javax.swing.JFrame {
         
         cargarImagenes();
         
+        
+        
+        /* Poner imagenes a los botones
+        botonStart.setIcon(new ImageIcon(this.getClass().getResource("/img/botonstart.png")));
+        botonStart.setBorder(null);
+        botonStart.setBorderPainted(false);
+        botonStart.setContentAreaFilled(false);
+        botonStart.setFocusPainted(false);
+        botonStart.setPressedIcon(new ImageIcon(this.getClass().getResource("/img/botonstartpeq.png")));
+        
+        botonReset.setIcon(new ImageIcon(this.getClass().getResource("/img/reload.png")));
+        botonReset.setBorder(null);
+        botonReset.setBorderPainted(false);
+        botonReset.setContentAreaFilled(false);
+        botonReset.setFocusPainted(false);
+        
+        */
+        
+        
         posicionActual = auxMovimientos.mario(arreglo);
 
     }
@@ -74,7 +91,6 @@ public class Principal extends javax.swing.JFrame {
             JLabel auxLabel = new JLabel();
             
             String auxRuta = "/img/"+arreglo[i][j]+".png";
-               // System.out.println(auxRuta);
             URL urlAux = this.getClass().getResource(auxRuta);
             ImageIcon iconAux = new ImageIcon(urlAux);
             auxLabel.setIcon(iconAux);
@@ -101,8 +117,6 @@ public class Principal extends javax.swing.JFrame {
             
             int operador=0;
             
-            
-            
             int pos = posicionActual[0]*arreglo.length + posicionActual[1];
             
             for (int i = camino.size()-1; i >=0 ; i--) {
@@ -114,7 +128,6 @@ public class Principal extends javax.swing.JFrame {
                         coord[1] = coord[1]-50;
                         tablero.add(auxLabel, pos);
                         auxLabel.setBounds(coord[0], coord[1], 50, 50);
-                        System.out.println("entre 1");
                         break;
                         
                     case 2:
@@ -122,7 +135,6 @@ public class Principal extends javax.swing.JFrame {
                         coord[1] = coord[1]+50;
                         tablero.add(auxLabel, pos);
                         auxLabel.setBounds(coord[0], coord[1], 50, 50);
-                        System.out.println("entre 2");
                         break;
                         
                     case 3:
@@ -130,7 +142,6 @@ public class Principal extends javax.swing.JFrame {
                         coord[0] = coord[0]-50;
                         tablero.add(auxLabel, pos);
                         auxLabel.setBounds(coord[0], coord[1], 50, 50);
-                        System.out.println("entre 3");
                         break;
                         
                     case 4:
@@ -138,7 +149,6 @@ public class Principal extends javax.swing.JFrame {
                         coord[0] = coord[0]+50;
                         tablero.add(auxLabel, pos);
                         auxLabel.setBounds(coord[0], coord[1], 50, 50);
-                        System.out.println("entre 4");
                         break;                 
                         
                         
@@ -170,6 +180,7 @@ public class Principal extends javax.swing.JFrame {
         combobox = new javax.swing.JComboBox<>();
         botonStart = new javax.swing.JButton();
         comboboxAux = new javax.swing.JComboBox<>();
+        botonReset = new javax.swing.JButton();
         banner = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -192,7 +203,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        botonStart.setText("Buscar!");
+        botonStart.setText("BUSCAR");
         botonStart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonStartActionPerformed(evt);
@@ -206,6 +217,13 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        botonReset.setText("RECARGAR");
+        botonReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonResetActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -215,12 +233,13 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(botonStart)
-                        .addContainerGap(144, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(combobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboboxAux, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(comboboxAux, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(botonReset))
+                        .addGap(0, 125, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,7 +250,9 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(comboboxAux, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addComponent(botonStart)
-                .addContainerGap(198, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(botonReset)
+                .addContainerGap(166, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -262,6 +283,8 @@ public class Principal extends javax.swing.JFrame {
     private void botonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonStartActionPerformed
         // TODO add your handling code here:
         int pos = posicionActual[0]*arreglo.length + posicionActual[1];
+        
+        //Se pone un cuadro en blanco en la posicion inicial de mario
         JLabel auxLabel2 = new JLabel();
             
         String auxRuta2 = "/img/0.png";
@@ -278,6 +301,32 @@ public class Principal extends javax.swing.JFrame {
                 
                 amplitud.crearArbol();
                 modificarCamino(amplitud.getCaminoAmplitud());
+                
+                //Espera medio segundo para pintar la imagen de win
+                try{
+                    Thread.sleep(500);
+                } catch (Exception e) {
+                }
+                
+                //Quita todas las imagenes del panel tablero y repinta
+                tablero.removeAll();
+                this.paintAll(this.getGraphics());
+                
+                //Pone la imagen de win y repinta
+                JLabel auxLabelWin = new JLabel();
+            
+                String auxRuta = "/img/win.gif";
+                URL urlAux = this.getClass().getResource(auxRuta);
+                ImageIcon iconAux = new ImageIcon(urlAux);
+                auxLabelWin.setIcon(iconAux);
+                auxLabelWin.setBounds(0,0,500,500);
+                tablero.add(auxLabelWin);
+                this.paintAll(this.getGraphics());
+                
+                //Se desactiva el boton para que no se ejecute este metodo
+                botonStart.setEnabled(false);
+                
+                
             }
             
         }
@@ -305,6 +354,18 @@ public class Principal extends javax.swing.JFrame {
     private void comboboxAuxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboboxAuxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboboxAuxActionPerformed
+
+    private void botonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonResetActionPerformed
+        // TODO add your handling code here:
+        
+        //Se limpia el panel y se vuelve a cargar con las imagenes y se repinta
+        tablero.removeAll();
+        cargarImagenes();
+        this.paintAll(this.getGraphics());
+        
+        //se activa el boton para poder dar uso de los metodos de busqueda otra vez
+        botonStart.setEnabled(true);
+    }//GEN-LAST:event_botonResetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -345,6 +406,7 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel banner;
+    private javax.swing.JButton botonReset;
     private javax.swing.JButton botonStart;
     private javax.swing.JComboBox<String> combobox;
     private javax.swing.JComboBox<String> comboboxAux;
