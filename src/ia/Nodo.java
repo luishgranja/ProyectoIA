@@ -30,6 +30,16 @@ public class Nodo {
     pX = 0;
     pY = 0;
 }
+    /**
+     * 
+     * @param pEstado
+     * @param pPadre
+     * @param pOperador
+     * @param pProfundidad
+     * @param pCosto
+     * @param posicionX
+     * @param posicionY 
+     */
     public Nodo(Boolean pEstado, Nodo pPadre, int pOperador, int pProfundidad, int pCosto, int posicionX, int posicionY){
         
     estado = pEstado;

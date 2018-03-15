@@ -24,6 +24,8 @@ public class CostoUniforme {
     
     
     public CostoUniforme(){
+        
+        
         matriz = cargarCamino.cargarArchivo();
         mario = new int[2];
         arbol = new ArrayList<Nodo>();
@@ -35,7 +37,10 @@ public class CostoUniforme {
         test = new Principal();
         
     }
-    
+    /**
+     * 
+     * @return la posicion del elemento con menor costo
+     */
     public int buscarMenor(){
         
         int menor = arbol.get(0).getCosto();
@@ -51,13 +56,22 @@ public class CostoUniforme {
         return pos;
     }
     
+    /**
+     * 
+     * @param miNodo
+     * @param pos
+     * @return 
+     */
     public int expandir(Nodo miNodo, int pos){
         int x=0 , y=0;
         if (estado) {
-            return 66;
+            System.out.println("aaaa");
+            return 0;
         }
+        System.out.println("ok");
             posMov = indicaciones.posibilidades(matriz, arbol.get(pos).getpX(), arbol.get(pos).getpY());
             for(int i=0; i<posMov.size();i++){
+                System.out.println("for");
                 int lado = posMov.get(i);
                 int valor = 0;
                 int costo = 1;
@@ -96,10 +110,26 @@ public class CostoUniforme {
                     indicaciones.miCamino(aux);
                 arbol.add(aux);
             }
+            int posX  = arbol.get(pos).getpX();
+            int posY  = arbol.get(pos).getpY();
             arbol.remove(pos);
+            if(volver(posX, posY, buscarMenor())) {
             expandir(arbol.get(buscarMenor()),buscarMenor());
+        }else{
+            arbol.remove(buscarMenor());
+            expandir(arbol.get(buscarMenor()),buscarMenor());
+            }
+            
                
             return 0;
+    }
+    
+    public boolean volver (int x, int y, int nodo){
+        
+        if (arbol.get(nodo).getpX() == x && arbol.get(nodo).getpY() == y) {
+            return false;
+        }
+        return true;
     }
     
     public void crearArbol(){ 

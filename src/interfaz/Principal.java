@@ -71,7 +71,6 @@ public class Principal extends javax.swing.JFrame {
         botonReset.setBorderPainted(false);
         botonReset.setContentAreaFilled(false);
         botonReset.setFocusPainted(false);
-        
         */
         
         
@@ -296,7 +295,9 @@ public class Principal extends javax.swing.JFrame {
         auxLabel2.setBounds(coord[0], coord[1], 50, 50);
         
         Amplitud amplitud = new Amplitud();
+        CostoUniforme costoUniforme = new CostoUniforme();
         if (combobox.getSelectedIndex() == 0) {
+            
             if (comboboxAux.getSelectedIndex() == 0) {
                 
                 amplitud.crearArbol();
@@ -322,6 +323,38 @@ public class Principal extends javax.swing.JFrame {
                 auxLabelWin.setBounds(0,0,500,500);
                 tablero.add(auxLabelWin);
                 this.paintAll(this.getGraphics());
+                
+                //Se desactiva el boton para que no se ejecute este metodo
+                botonStart.setEnabled(false);
+                
+                
+            }
+            
+            if (comboboxAux.getSelectedIndex() == 1) {
+                
+                costoUniforme.crearArbol();
+                //modificarCamino(costoUniforme.());
+                
+                //Espera medio segundo para pintar la imagen de win
+                try{
+                    Thread.sleep(500);
+                } catch (Exception e) {
+                }
+                
+                //Quita todas las imagenes del panel tablero y repinta
+                tablero.removeAll();
+                this.paintAll(this.getGraphics());
+                
+                //Pone la imagen de win y repinta
+                //JLabel auxLabelWin = new JLabel();
+            
+                //String auxRuta = "/img/win.gif";
+               // URL urlAux = this.getClass().getResource(auxRuta);
+               // ImageIcon iconAux = new ImageIcon(urlAux);
+              //  auxLabelWin.setIcon(iconAux);
+             //   auxLabelWin.setBounds(0,0,500,500);
+               // tablero.add(auxLabelWin);
+               // this.paintAll(this.getGraphics());
                 
                 //Se desactiva el boton para que no se ejecute este metodo
                 botonStart.setEnabled(false);
