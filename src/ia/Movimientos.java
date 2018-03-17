@@ -19,15 +19,21 @@ ArrayList<Integer> movimientos;
     public Movimientos(){
         movimientos  = new ArrayList<Integer>(); 
     }
-    
+    /**
+     * 
+     * @param matriz
+     * @param i Posicion actual en x, se usa para calcular los posibles movimientos sin salirse de los limites de la matriz
+     * @param j Posicion actual en y, se usa para calcular los posibles movimientos sin salirse de los limites de la matriz
+     * @return  Retorna un arreglo con las posibles direcciones donde se puede mover mario en la posicion (i,j)
+     */
     public ArrayList<Integer> posibilidades(int matriz[][], int i, int j){
-        ArrayList<Integer> posibles = new ArrayList<Integer>();
+        ArrayList<Integer> posibles = new ArrayList<>();
         //Posibles movimientos que puede tener mario, los agrega a un arreglo
         //1 arriba
         //2 abajo
         //3 izquierda
         //4 derecha
-        posibles.clear();
+        //posibles.clear();
         if((i-1) >= 0 && (i-1) <= 9){
             if (matriz[i-1][j]!=1) {
                 posibles.add(1);

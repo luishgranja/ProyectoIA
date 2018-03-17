@@ -21,9 +21,12 @@ public class CostoUniforme {
     ArrayList<Integer> posMov;
     Boolean estado = false;
     Principal test;
+    int profundidad;
     
     
     public CostoUniforme(){
+        
+        
         matriz = cargarCamino.cargarArchivo();
         mario = new int[2];
         arbol = new ArrayList<Nodo>();
@@ -33,35 +36,41 @@ public class CostoUniforme {
         arbol.add(aux);
         posMov = new ArrayList<Integer>();
         test = new Principal();
-        
     }
-    
+    /**
+     * 
+     * @return la posicion del elemento con menor costo
+     */
     public int buscarMenor(){
         
         int menor = arbol.get(0).getCosto();
         int pos = 0;
-       
         for (int i = 1; i < arbol.size(); i++) {
-            
-            if (arbol.get(i).getCosto() < menor ) {
+            if (arbol.get(i).getCosto() < menor) {
+                if(arbol.get(i).getOperador()+1!=arbol.get(i).getPadre().getOperador() && arbol.get(i).getOperador()-1!=arbol.get(i).getPadre().getOperador() ){
                 menor = arbol.get(i).getCosto();
-                pos = i;
+                pos = i;   
+                }
+                
             }
         }
         return pos;
     }
     
-    public int expandir(Nodo miNodo, int pos){
+    /**
+     * 
+     * @param miNodo
+     * @param pos
+     * @return 
+     */
+    public void expandir(Nodo miNodo, int pos){
         int x=0 , y=0;
-        if (estado) {
-            return 66;
-        }
-            posMov = indicaciones.posibilidades(matriz, arbol.get(pos).getpX(), arbol.get(pos).getpY());
-            for(int i=0; i<posMov.size();i++){
-                int lado = posMov.get(i);
-                int valor = 0;
-                int costo = 1;
-                switch (lado) {
+       posMov = indicaciones.posibilidades(matriz, arbol.get(pos).getpX(), arbol.get(pos).getpY());
+       for(int i=0; i<posMov.size();i++){
+              int lado = posMov.get(i);
+              int valor = 0;
+              int costo = 1;
+               switch (lado) {
                     case 1:
                         valor = matriz[arbol.get(pos).getpX()-1][arbol.get(pos).getpY()];
                         x=-1;
@@ -85,21 +94,23 @@ public class CostoUniforme {
                     default:
                         break;
                 }
-                if(valor == 5){
+               if(valor == 5){
                     estado = true;
                     System.out.println("princesa");
                 }
-                if(valor == 4)
-                    costo=8;
-                aux = new Nodo(estado, arbol.get(pos), lado, i+1, costo, arbol.get(pos).getpX()+x, arbol.get(pos).getpY()+y);
-                if(estado)
-                    indicaciones.miCamino(aux);
-                arbol.add(aux);
+               else if(valor == 4)
+                    costo+=7;
+              
+               aux = new Nodo(estado, arbol.get(pos), lado, arbol.get(pos).getProfundidad()+1, costo+arbol.get(pos).getCosto(), arbol.get(pos).getpX()+x, arbol.get(pos).getpY()+y);
+              //System.out.println("Costo " +aux.getCosto() + " - Profundidad " + aux.getProfundidad() + " - Valor "+valor); 
+               if(estado)
+                   indicaciones.miCamino(aux);
+               arbol.add(aux);
             }
-            arbol.remove(pos);
+       arbol.remove(pos);
+       if(!estado){
             expandir(arbol.get(buscarMenor()),buscarMenor());
-               
-            return 0;
+       }          
     }
     
     public void crearArbol(){ 
