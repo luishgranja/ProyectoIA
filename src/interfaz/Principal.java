@@ -296,6 +296,9 @@ public class Principal extends javax.swing.JFrame {
         
         Amplitud amplitud = new Amplitud();
         CostoUniforme costoUniforme = new CostoUniforme();
+        ProfundidadEvitandoCiclos profundidad = new ProfundidadEvitandoCiclos();
+        
+        
         if (combobox.getSelectedIndex() == 0) {
             
             if (comboboxAux.getSelectedIndex() == 0) {
@@ -330,7 +333,7 @@ public class Principal extends javax.swing.JFrame {
                 
             }
             
-            if (comboboxAux.getSelectedIndex() == 1) {
+            else if (comboboxAux.getSelectedIndex() == 1) {
                 
                 costoUniforme.crearArbol();
                 //modificarCamino(costoUniforme.());
@@ -360,6 +363,21 @@ public class Principal extends javax.swing.JFrame {
                 botonStart.setEnabled(false);
                 
                 
+            }else if (comboboxAux.getSelectedIndex() == 2) {
+                
+                
+                profundidad.crearArbol();
+                modificarCamino(profundidad.getCaminoAmplitud());
+                
+                //Espera medio segundo para pintar la imagen de win
+                try{
+                    Thread.sleep(500);
+                } catch (Exception e) {
+                }
+                
+                //Quita todas las imagenes del panel tablero y repinta
+                //tablero.removeAll();
+                //this.paintAll(this.getGraphics());
             }
             
         }

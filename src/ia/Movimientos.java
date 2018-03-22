@@ -78,7 +78,6 @@ ArrayList<Integer> movimientos;
     }
     
     public ArrayList<Integer> miCamino(Nodo nodo){
-        
         movimientos.add(nodo.getOperador());
         if(nodo.getPadre().getPadre()!=null)
             miCamino(nodo.getPadre());
