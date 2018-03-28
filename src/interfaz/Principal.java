@@ -25,6 +25,7 @@ public class Principal extends javax.swing.JFrame {
     String auxRutaMario = "/img/2.png";
     int[] coord;
     int[] posicionActual;
+    boolean flor;
     
     
     /**
@@ -33,7 +34,7 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         
         arreglo = cargarCamino.cargarArchivo();
-        
+        flor = true;
         initComponents();
         setResizable(false);
         this.setTitle("MARIO SMART");
@@ -104,16 +105,47 @@ public class Principal extends javax.swing.JFrame {
         }
     }
     
+    public void modificaTortuga(){
+        
+        
+    }
     
     public void modificarCamino(ArrayList<Integer> camino){ 
             JLabel auxLabel = new JLabel();
             URL urlAux = this.getClass().getResource(auxRutaMario);
             ImageIcon iconAux = new ImageIcon(urlAux);    
-            auxLabel.setIcon(iconAux);       
+            auxLabel.setIcon(iconAux);  
             int operador=0;     
             int pos = posicionActual[0]*arreglo.length + posicionActual[1];
             
+            JLabel auxLabel2 = new JLabel();    
+            String auxRuta2 = "/img/0.png";
+        
+            URL urlAux2 = this.getClass().getResource(auxRuta2);
+            ImageIcon iconAux2 = new ImageIcon(urlAux2);
+            auxLabel2.setIcon(iconAux2);
+            tablero.remove(pos);
+            tablero.add(auxLabel2, pos);
+            auxLabel2.setBounds(coord[0], coord[1], 50, 50);
+            
+            
             for (int i = camino.size()-1; i >=0 ; i--) {
+                
+                
+                if (flor && (arreglo[coord[1]/50][coord[0]/50] == 4 )) {
+                    int pos1 = (coord[1]/50)*arreglo.length + (coord[0]/50);
+                    System.out.println("");
+            
+            JLabel auxLabelModificada = new JLabel();    
+            String auxRutaModificada = "/img/0.png";
+        
+            URL urlAuxModificada = this.getClass().getResource(auxRutaModificada);
+            ImageIcon iconAuxModificada = new ImageIcon(urlAuxModificada);
+            auxLabelModificada.setIcon(iconAuxModificada);
+            tablero.remove(pos1);
+            tablero.add(auxLabelModificada, pos1);
+            auxLabelModificada.setBounds(coord[0], coord[1], 50, 50);
+                }
                operador = camino.get(i);
                 switch (operador) {      
                     case 1:
@@ -145,12 +177,30 @@ public class Principal extends javax.swing.JFrame {
                         break;                                    
                     default:
                         throw new AssertionError();                 
-                }         
+                }
+                
+                if(arreglo[coord[1]/50][coord[0]/50] == 3 ) {
+                            flor = true;
+                }
                 try{
                     Thread.sleep(500);
                 } catch (Exception e) {}      
                 this.paintAll(this.getGraphics());
         }
+            
+        tablero.removeAll();
+        this.paintAll(this.getGraphics());     
+        //Pone la imagen de win y repinta
+       JLabel auxLabelWin = new JLabel();
+       String auxRuta = "/img/win.gif";
+       URL urlAuxWin = this.getClass().getResource(auxRuta);
+       ImageIcon iconAuxWin = new ImageIcon(urlAuxWin);
+       auxLabelWin.setIcon(iconAuxWin);
+       auxLabelWin.setBounds(0,0,500,500);
+       tablero.add(auxLabelWin);
+       this.paintAll(this.getGraphics());
+       //Se desactiva el boton para que no se ejecute este metodo
+       botonStart.setEnabled(false);
     }
 
     /**
@@ -267,39 +317,6 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void mover(){
-        // TODO add your handling code here:
-        int pos = posicionActual[0]*arreglo.length + posicionActual[1];
-        
-        //Se pone un cuadro en blanco en la posicion inicial de mario
-        JLabel auxLabel2 = new JLabel();
-            
-        String auxRuta2 = "/img/0.png";
-        URL urlAux2 = this.getClass().getResource(auxRuta2);
-        ImageIcon iconAux2 = new ImageIcon(urlAux2);
-        auxLabel2.setIcon(iconAux2);
-        tablero.remove(pos);
-        tablero.add(auxLabel2);
-        auxLabel2.setBounds(coord[0], coord[1], 50, 50);  
-        //Espera medio segundo para pintar la imagen de win
-         try{
-               Thread.sleep(500);
-              } catch (Exception e) {}   
-         //Quita todas las imagenes del panel tablero y repinta
-         tablero.removeAll();
-         this.paintAll(this.getGraphics());     
-         //Pone la imagen de win y repinta
-        JLabel auxLabelWin = new JLabel();
-       String auxRuta = "/img/win.gif";
-       URL urlAux = this.getClass().getResource(auxRuta);
-       ImageIcon iconAux = new ImageIcon(urlAux);
-       auxLabelWin.setIcon(iconAux);
-       auxLabelWin.setBounds(0,0,500,500);
-       tablero.add(auxLabelWin);
-       this.paintAll(this.getGraphics());
-        //Se desactiva el boton para que no se ejecute este metodo
-        botonStart.setEnabled(false);
-    }
     
     private void botonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonStartActionPerformed
         if (combobox.getSelectedIndex() == 0) {
@@ -309,19 +326,16 @@ public class Principal extends javax.swing.JFrame {
                     BusquedaNoInformada amplitud = new BusquedaNoInformada();
                     amplitud.crearArbol("Amplitud");
                     modificarCamino(amplitud.getCamino());
-                    mover();
                     break;
                 case 1:
                     BusquedaNoInformada costoUniforme = new BusquedaNoInformada();
                     costoUniforme.crearArbol("Costo");
                     modificarCamino(costoUniforme.getCamino());
-                    mover();
                     break;
                 case 2:
                    BusquedaNoInformada profundidad = new BusquedaNoInformada();
                     profundidad.crearArbol("Profundidad");
                     modificarCamino(profundidad.getCamino());
-                    mover();
                     break;
                 default:
                     break;
