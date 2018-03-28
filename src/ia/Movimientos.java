@@ -33,7 +33,6 @@ ArrayList<Integer> movimientos;
         //2 abajo
         //3 izquierda
         //4 derecha
-        
         if((i-1) >= 0 && (i-1) <= 9){
             if (matriz[i-1][j]!=1) {
                 posibles.add(1);

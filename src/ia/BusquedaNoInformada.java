@@ -21,6 +21,7 @@ public class BusquedaNoInformada {
     ArrayList<Integer> posMov;
     int profundidad;
     ArrayList<Integer> camino;
+    Boolean flor;
     
     public BusquedaNoInformada(){  
         matriz = cargarCamino.cargarArchivo();
@@ -32,6 +33,7 @@ public class BusquedaNoInformada {
         arbol.add(aux);
         posMov = new ArrayList<>();
         camino = new ArrayList<>();
+        flor=false;
     }
     /**
      * 
@@ -92,9 +94,11 @@ public class BusquedaNoInformada {
                       default:
                           break;
                   }
-                 if(valor == 5)
+                 if(valor==3)
+                     flor=true;
+                 else if(valor == 5)
                      estado=true;
-                 else if(valor == 4)
+                 else if(valor == 4 && !flor)
                       costo+=7;  
                 aux = new Nodo(estado, arbol.get(pos), lado, arbol.get(pos).getProfundidad()+1, costo+arbol.get(pos).getCosto(), arbol.get(pos).getpX()+x, arbol.get(pos).getpY()+y);
                 arbol.add(aux);
@@ -120,21 +124,21 @@ public class BusquedaNoInformada {
     }
     
     public void amplitud(Nodo miNodo){
-        expandirNodos(0,false);
         if(miNodo.getEstado()==true){
                    System.out.println("princesa");
                    camino = indicaciones.miCamino(miNodo);               
         }
        else{   
-       arbol.remove(0);
-       amplitud(arbol.get(0)); 
+            expandirNodos(0,false);
+            arbol.remove(0);
+             amplitud(arbol.get(0)); 
          }
     }
     
      public void costoUniforme(Nodo miNodo, int pos){
-        camino.clear();
         if(miNodo.getEstado()==true){
                    System.out.println("princesa");
+                    System.out.println("Costo: "+miNodo.getCosto());
                    camino = indicaciones.miCamino(miNodo);               
         }
        else{
