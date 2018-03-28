@@ -105,23 +105,17 @@ public class Principal extends javax.swing.JFrame {
     }
     
     
-    public void modificarCamino(ArrayList<Integer> camino){
-            
-            
+    public void modificarCamino(ArrayList<Integer> camino){ 
             JLabel auxLabel = new JLabel();
             URL urlAux = this.getClass().getResource(auxRutaMario);
-            ImageIcon iconAux = new ImageIcon(urlAux); 
-            
-            auxLabel.setIcon(iconAux);
-            
-            int operador=0;
-            
+            ImageIcon iconAux = new ImageIcon(urlAux);    
+            auxLabel.setIcon(iconAux);       
+            int operador=0;     
             int pos = posicionActual[0]*arreglo.length + posicionActual[1];
             
             for (int i = camino.size()-1; i >=0 ; i--) {
                operador = camino.get(i);
-                switch (operador) {
-                    
+                switch (operador) {      
                     case 1:
                         pos = pos-10;
                         coord[1] = coord[1]-50;
@@ -148,19 +142,13 @@ public class Principal extends javax.swing.JFrame {
                         coord[0] = coord[0]+50;
                         tablero.add(auxLabel, pos);
                         auxLabel.setBounds(coord[0], coord[1], 50, 50);
-                        break;                 
-                        
-                        
+                        break;                                    
                     default:
-                        throw new AssertionError();
-                        
-                }
-                
+                        throw new AssertionError();                 
+                }         
                 try{
                     Thread.sleep(500);
-                } catch (Exception e) {
-                }
-                
+                } catch (Exception e) {}      
                 this.paintAll(this.getGraphics());
         }
     }
@@ -279,7 +267,7 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void botonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonStartActionPerformed
+    public void mover(){
         // TODO add your handling code here:
         int pos = posicionActual[0]*arreglo.length + posicionActual[1];
         
@@ -292,92 +280,51 @@ public class Principal extends javax.swing.JFrame {
         auxLabel2.setIcon(iconAux2);
         tablero.remove(pos);
         tablero.add(auxLabel2);
-        auxLabel2.setBounds(coord[0], coord[1], 50, 50);
-        
-        Amplitud amplitud = new Amplitud();
-        CostoUniforme costoUniforme = new CostoUniforme();
-        ProfundidadEvitandoCiclos profundidad = new ProfundidadEvitandoCiclos();
-        
-        
+        auxLabel2.setBounds(coord[0], coord[1], 50, 50);  
+        //Espera medio segundo para pintar la imagen de win
+         try{
+               Thread.sleep(500);
+              } catch (Exception e) {}   
+         //Quita todas las imagenes del panel tablero y repinta
+         tablero.removeAll();
+         this.paintAll(this.getGraphics());     
+         //Pone la imagen de win y repinta
+        JLabel auxLabelWin = new JLabel();
+       String auxRuta = "/img/win.gif";
+       URL urlAux = this.getClass().getResource(auxRuta);
+       ImageIcon iconAux = new ImageIcon(urlAux);
+       auxLabelWin.setIcon(iconAux);
+       auxLabelWin.setBounds(0,0,500,500);
+       tablero.add(auxLabelWin);
+       this.paintAll(this.getGraphics());
+        //Se desactiva el boton para que no se ejecute este metodo
+        botonStart.setEnabled(false);
+    }
+    
+    private void botonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonStartActionPerformed
         if (combobox.getSelectedIndex() == 0) {
             
-            if (comboboxAux.getSelectedIndex() == 0) {
-                
-                amplitud.crearArbol();
-                modificarCamino(amplitud.getCaminoAmplitud());
-                
-                //Espera medio segundo para pintar la imagen de win
-                try{
-                    Thread.sleep(500);
-                } catch (Exception e) {
-                }
-                
-                //Quita todas las imagenes del panel tablero y repinta
-                tablero.removeAll();
-                this.paintAll(this.getGraphics());
-                
-                //Pone la imagen de win y repinta
-                JLabel auxLabelWin = new JLabel();
-            
-                String auxRuta = "/img/win.gif";
-                URL urlAux = this.getClass().getResource(auxRuta);
-                ImageIcon iconAux = new ImageIcon(urlAux);
-                auxLabelWin.setIcon(iconAux);
-                auxLabelWin.setBounds(0,0,500,500);
-                tablero.add(auxLabelWin);
-                this.paintAll(this.getGraphics());
-                
-                //Se desactiva el boton para que no se ejecute este metodo
-                botonStart.setEnabled(false);
-                
-                
-            }
-            
-            else if (comboboxAux.getSelectedIndex() == 1) {
-                
-                costoUniforme.crearArbol();
-                //modificarCamino(costoUniforme.());
-                
-                //Espera medio segundo para pintar la imagen de win
-                try{
-                    Thread.sleep(500);
-                } catch (Exception e) {
-                }
-                
-                //Quita todas las imagenes del panel tablero y repinta
-                tablero.removeAll();
-                this.paintAll(this.getGraphics());
-                
-                //Pone la imagen de win y repinta
-                //JLabel auxLabelWin = new JLabel();
-            
-                //String auxRuta = "/img/win.gif";
-               // URL urlAux = this.getClass().getResource(auxRuta);
-               // ImageIcon iconAux = new ImageIcon(urlAux);
-              //  auxLabelWin.setIcon(iconAux);
-             //   auxLabelWin.setBounds(0,0,500,500);
-               // tablero.add(auxLabelWin);
-               // this.paintAll(this.getGraphics());
-                
-                //Se desactiva el boton para que no se ejecute este metodo
-                botonStart.setEnabled(false);
-                
-                
-            }else if (comboboxAux.getSelectedIndex() == 2) {
-                
-                
-                profundidad.crearArbol();
-                modificarCamino(profundidad.getCaminoAmplitud());
-                
-                //Espera medio segundo para pintar la imagen de win
-                try{
-                    Thread.sleep(500);
-                } catch (Exception e) {
-                }
-                
-                //Quita todas las imagenes del panel tablero y repinta
-                //tablero.removeAll();
-                //this.paintAll(this.getGraphics());
+            switch (comboboxAux.getSelectedIndex()) {
+                case 0:
+                    BusquedaNoInformada amplitud = new BusquedaNoInformada();
+                    amplitud.crearArbol("Amplitud");
+                    modificarCamino(amplitud.getCamino());
+                    mover();
+                    break;
+                case 1:
+                    BusquedaNoInformada costoUniforme = new BusquedaNoInformada();
+                    costoUniforme.crearArbol("Costo");
+                    modificarCamino(costoUniforme.getCamino());
+                    mover();
+                    break;
+                case 2:
+                   BusquedaNoInformada profundidad = new BusquedaNoInformada();
+                    profundidad.crearArbol("Profundidad");
+                    modificarCamino(profundidad.getCamino());
+                    mover();
+                    break;
+                default:
+                    break;
             }
             
         }
@@ -391,9 +338,7 @@ public class Principal extends javax.swing.JFrame {
             comboboxAux.removeAllItems();
             comboboxAux.addItem("Amplitud");
             comboboxAux.addItem("Costo Uniforme");
-            comboboxAux.addItem("Profundidad Evitando Ciclos");
-            
-            
+            comboboxAux.addItem("Profundidad Evitando Ciclos");       
         }else{
             comboboxAux.removeAllItems();
             comboboxAux.addItem("Avara");

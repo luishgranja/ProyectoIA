@@ -38,57 +38,17 @@ public class ProfundidadEvitandoCiclos {
     
     
     public void expandir(Nodo miNodo){
-        int x=0 , y=0;
+        
         int pos = arbol.size()-1;
         System.out.println(miNodo.getOperador());
-        matriz[arbol.get(pos).getpX()][arbol.get(pos).getpY()]=100;
-        posMov = indicaciones.posibilidades(matriz, arbol.get(pos).getpX(), arbol.get(pos).getpY());
-       for(int i=0; i<posMov.size();i++){
-              int lado = posMov.get(i);
-              int valor = 0;
-              int costo = 1;
-               switch (lado) {
-                    case 1:
-                        valor = matriz[arbol.get(pos).getpX()-1][arbol.get(pos).getpY()];
-                        x=-1;
-                        y=0;
-                        break;
-                    case 2:
-                        valor = matriz[arbol.get(pos).getpX()+1][arbol.get(pos).getpY()];
-                        x=1;
-                        y=0;
-                        break;
-                    case 3:
-                        valor = matriz[arbol.get(pos).getpX()][arbol.get(pos).getpY()-1];
-                        x = 0;
-                        y = -1;
-                        break;
-                    case 4:
-                        valor = matriz[arbol.get(pos).getpX()][arbol.get(pos).getpY()+1];
-                        x = 0;
-                        y = 1;
-                        break;
-                    default:
-                        break;
-                }
-               if(valor == 5){
-                    estado = true;
-                    System.out.println("princesa");
-                }             
-               aux = new Nodo(true, arbol.get(pos), lado, arbol.get(pos).getProfundidad()+1, costo+arbol.get(pos).getCosto(), arbol.get(pos).getpX()+x, arbol.get(pos).getpY()+y);
-           
-               if(valor!=100){
+        matriz[arbol.get(pos).getpX()][arbol.get(pos).getpY()]=1;
+          
                    if(estado)
                         caminoProfundidad = indicaciones.miCamino(aux);
                    else{
                     arbol.add(aux);
                     expandir(aux);
                    } 
-                   
-                   }
-               
-               
-            }
        arbol.remove(pos);
             
         

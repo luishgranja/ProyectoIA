@@ -33,7 +33,7 @@ ArrayList<Integer> movimientos;
         //2 abajo
         //3 izquierda
         //4 derecha
-        //posibles.clear();
+        
         if((i-1) >= 0 && (i-1) <= 9){
             if (matriz[i-1][j]!=1) {
                 posibles.add(1);
@@ -78,6 +78,7 @@ ArrayList<Integer> movimientos;
     }
     
     public ArrayList<Integer> miCamino(Nodo nodo){
+        System.out.println(nodo.getOperador());
         movimientos.add(nodo.getOperador());
         if(nodo.getPadre().getPadre()!=null)
             miCamino(nodo.getPadre());
