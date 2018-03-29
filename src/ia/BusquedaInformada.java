@@ -51,8 +51,8 @@ public class BusquedaInformada {
     public int[] encontrarPrincesa(){
         int[] coordenada = new int[2];
         
-        for (int i = 0; i < matriz[0].length; i++) {
-            for (int j = 0; j < matriz[0].length; j++) {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
                 if (matriz[i][j]==5) {
                     coordenada[0] = i;
                     coordenada[1] = j;
@@ -65,11 +65,10 @@ public class BusquedaInformada {
     
     public void expandirNodos(int pos, int lado){
         int[] coordenadas = new int[2];
-        int [] princesa = encontrarPrincesa();
         int x=0 , y=0;
        Boolean estado = false;
        
-       posMov.clear();
+       //posMov.clear();
        posMov = indicaciones.posibilidades(matriz, arbol.get(pos).getpX(), arbol.get(pos).getpY());
        
        int [][] arregloCoordenadas = new int[2][posMov.size()];
@@ -117,29 +116,59 @@ public class BusquedaInformada {
                   }
                   
                  arregloCoordenadas[i]= coordenadas;
+                 
+                 if(valor == 5)
+                     estado=true;
+                 
+                aux = new Nodo(estado, arbol.get(pos), lado, arbol.get(pos).getProfundidad()+1, costo+arbol.get(pos).getCosto(), arbol.get(pos).getpX()+x, arbol.get(pos).getpY()+y);
+                arbol.add(aux);
                      
               }
               
               int menor = 100;
               int auxPos = 0;
               for (int i = 0; i < arregloCoordenadas.length; i++) {
-                  if (calcularDistancia(arregloCoordenadas[i], princesa) < menor) {
-                      menor = calcularDistancia(arregloCoordenadas[i], princesa);
+                  if (calcularDistancia(arregloCoordenadas[i], encontrarPrincesa()) < menor) {
+                      menor = calcularDistancia(arregloCoordenadas[i], encontrarPrincesa());
                       auxPos = i;
                   }
               }
-              expandirNodos(pos,posMov.get(auxPos));
+              if(aux.getEstado()==true){
+                            System.out.println("princesa");
+                            camino = indicaciones.miCamino(aux);               
+                        }else{
+                            expandirNodos(pos,posMov.get(auxPos));
+                        }
+              
               
               
        }
            
     }
     
-    public void busquedaAvara(){
+    public void busquedaAvara(Nodo miNodo, int pos){
+        if(miNodo.getEstado()==true){
+                   System.out.println("princesa");
+                   camino = indicaciones.miCamino(miNodo);               
+        }else{
         
+        expandirNodos(pos,1);
+        arbol.remove(pos);
+        }
         
     }
     
+    //Crea el árbol con el nodo raíz y empieza a expandir dependiendo del método.
+    public void crearArbol(String metodo){ 
+        if(metodo.equals("Avara"))
+            busquedaAvara(arbol.get(0),0); 
+        //else if(metodo.equals("A"))
+           // A(arbol.get(0),0);         
+    }
     
+    
+    public ArrayList<Integer> getCamino(){
+        return camino;
+    }
     
 }

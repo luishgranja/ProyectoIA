@@ -343,6 +343,25 @@ public class Principal extends javax.swing.JFrame {
             }
             
         }
+        
+        if (combobox.getSelectedIndex() == 1) {
+            
+            switch (comboboxAux.getSelectedIndex()) {
+                case 0:
+                    BusquedaInformada avara = new BusquedaInformada();
+                    avara.crearArbol("Avara");
+                    modificarCamino(avara.getCamino());
+                    break;
+                case 1:
+                    BusquedaNoInformada costoUniforme = new BusquedaNoInformada();
+                    costoUniforme.crearArbol("Costo");
+                    modificarCamino(costoUniforme.getCamino());
+                    break;
+                default:
+                    break;
+            }
+            
+        }
     }//GEN-LAST:event_botonStartActionPerformed
 
     private void comboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboboxActionPerformed
