@@ -34,7 +34,7 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         
         arreglo = cargarCamino.cargarArchivo();
-        flor = true;
+        flor = false;
         initComponents();
         setResizable(false);
         this.setTitle("MARIO SMART");
@@ -114,7 +114,7 @@ public class Principal extends javax.swing.JFrame {
             JLabel auxLabel = new JLabel();
             URL urlAux = this.getClass().getResource(auxRutaMario);
             ImageIcon iconAux = new ImageIcon(urlAux);    
-            auxLabel.setIcon(iconAux);  
+            auxLabel.setIcon(iconAux);
             int operador=0;     
             int pos = posicionActual[0]*arreglo.length + posicionActual[1];
             
@@ -180,7 +180,8 @@ public class Principal extends javax.swing.JFrame {
                 }
                 
                 if(arreglo[coord[1]/50][coord[0]/50] == 3 ) {
-                            flor = true;
+                    auxLabel.setIcon(new ImageIcon(this.getClass().getResource("/img/up.png")));
+                    flor = true;
                 }
                 try{
                     Thread.sleep(500);
@@ -372,6 +373,7 @@ public class Principal extends javax.swing.JFrame {
         tablero.removeAll();
         cargarImagenes();
         this.paintAll(this.getGraphics());
+        flor = false;
         
         //se activa el boton para poder dar uso de los metodos de busqueda otra vez
         botonStart.setEnabled(true);

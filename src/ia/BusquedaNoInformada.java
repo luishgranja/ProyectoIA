@@ -44,6 +44,7 @@ public class BusquedaNoInformada {
         int pos = 0;
         for (int i = 0; i < arbol.size(); i++) {
             if (arbol.get(i).getCosto() < menor) {
+                
                 if(arbol.get(i).getPadre().getOperador()!=0){
                         if(arbol.get(i).getOperador()+1!=arbol.get(i).getPadre().getOperador() &&
                         arbol.get(i).getOperador()-1!=arbol.get(i).getPadre().getOperador() ){
