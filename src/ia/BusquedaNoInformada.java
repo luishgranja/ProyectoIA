@@ -61,6 +61,24 @@ public class BusquedaNoInformada {
         return pos;
     }
 
+    //Función que verifica que no se devuelva 
+   public int siguiente(int pos){
+       int res = pos;
+        if(arbol.get(pos).getPadre().getOperador()!=0){
+              if(arbol.get(pos).getOperador()+1!=arbol.get(pos).getPadre().getOperador() &&
+              arbol.get(pos).getOperador()-1!=arbol.get(pos).getPadre().getOperador() ){
+                         return res;  
+                    }
+              else{
+                  arbol.remove(pos);
+                  res = siguiente(pos);
+              }
+                  
+                }
+        return res;
+    }
+
+
     public void expandirNodos(int pos,boolean noCiclos){
         int x=0 , y=0;
        Boolean estado = false;
@@ -124,15 +142,16 @@ public class BusquedaNoInformada {
            
     }
     
-    public void amplitud(Nodo miNodo){
+    public void amplitud(Nodo miNodo,int pos){
         if(miNodo.getEstado()==true){
                    System.out.println("princesa");
                    camino = indicaciones.miCamino(miNodo);               
         }
        else{   
-            expandirNodos(0,false);
-            arbol.remove(0);
-             amplitud(arbol.get(0)); 
+            expandirNodos(pos,false);
+            arbol.remove(pos);
+            int siguiente = siguiente(pos);
+            amplitud(arbol.get(siguiente),siguiente); 
          }
     }
     
@@ -150,18 +169,11 @@ public class BusquedaNoInformada {
         }
     }
      
-     public void profundidadEvitandoCiclos(Nodo miNodo, int pos){
-        if(miNodo.getEstado()==true){
-                   System.out.println("princesa");
-                   camino = indicaciones.miCamino(miNodo);               
-        }
-        expandirNodos(pos,true);
-     }
      
     //Crea el árbol con el nodo raíz y empieza a expandir dependiendo del método.
     public void crearArbol(String metodo){ 
         if(metodo.equals("Amplitud"))
-            amplitud(arbol.get(0)); 
+            amplitud(arbol.get(0),0); 
         else if(metodo.equals("Costo"))
             costoUniforme(arbol.get(0),0); 
         else if(metodo.equals("Profundidad"))
