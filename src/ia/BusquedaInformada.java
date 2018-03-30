@@ -41,9 +41,13 @@ public class BusquedaInformada {
         princesa = new int[2];
         princesa = encontrarPrincesa();
     }
+  
+  public int distancia(Nodo miNodo){
+    return Math.abs(princesa[0]-miNodo.getpX()) + Math.abs(princesa[1])-miNodo.getpY();
+  }
     
     
- public int calcularDistancia(int pos, int prof){
+ public int calcularHeuristica(int pos, int prof, Boolean a){
         int menor = 100;
         int auxPos = 0;
         int[] coordenada = new int[2];
@@ -53,11 +57,21 @@ public class BusquedaInformada {
           if(posMov.size()>1){
             if (prof < arbol.get(i).getProfundidad()) {
               if(arbol.get(i).getOperador()+1!=arbol.get(i).getPadre().getOperador() &&
-              arbol.get(i).getOperador()-1!=arbol.get(i).getPadre().getOperador())
-                if ( (Math.abs(princesa[0]-arbol.get(i).getpX()) + Math.abs(princesa[1])-arbol.get(i).getpY()) < menor) {
-                    menor = Math.abs(princesa[0]-arbol.get(i).getpX()) + Math.abs(princesa[1])-arbol.get(i).getpY();
+              arbol.get(i).getOperador()-1!=arbol.get(i).getPadre().getOperador()){
+                if(a){
+                    if ( (distancia(arbol.get(i)) + arbol.get(i).getCosto()  < menor) ) {
+                    menor = distancia(arbol.get(i)) + arbol.get(i).getCosto() ;
                     auxPos = i;
+                	}                  
                 }
+                else{
+                    if ( distancia(arbol.get(i)) < menor) {
+                    menor = distancia(arbol.get(i));
+                    auxPos = i;
+                	}                    
+                }              
+              }
+
             }            
           }
           else{
@@ -122,9 +136,12 @@ public class BusquedaInformada {
                       default:
                           break;
                   }
-                 
-                 if(valor == 5)
-                     estado=true;   
+                 if(valor==3)
+                     flor=true;
+                 else if(valor == 5)
+                     estado=true;
+                 else if(valor == 4 && !flor)
+                      costo+=7;   
                 aux = new Nodo(estado, arbol.get(pos), lado, arbol.get(pos).getProfundidad()+1, costo+arbol.get(pos).getCosto(), arbol.get(pos).getpX()+x, arbol.get(pos).getpY()+y);
                 arbol.add(aux);
                      
@@ -141,18 +158,29 @@ public class BusquedaInformada {
         }else{
           expandirNodos(pos);
           int prof = miNodo.getProfundidad();
-          int siguiente = calcularDistancia(pos, prof);
+          int siguiente = calcularHeuristica(pos, prof, false);
           busquedaAvara(arbol.get(siguiente),siguiente);
-        }
-        
+        }     
+    }
+  
+   public void busquedaA(Nodo miNodo, int pos){
+        if(miNodo.getEstado()==true){
+                   System.out.println("princesa");
+                   camino = indicaciones.miCamino(miNodo);               
+        }else{
+          expandirNodos(pos);
+          int prof = miNodo.getProfundidad();
+          int siguiente = calcularHeuristica(pos, prof,true);
+          busquedaA(arbol.get(siguiente),siguiente);
+        }     
     }
     
     //Crea el árbol con el nodo raíz y empieza a expandir dependiendo del método.
     public void crearArbol(String metodo){ 
         if(metodo.equals("Avara"))
             busquedaAvara(arbol.get(0),0); 
-        //else if(metodo.equals("A"))
-           // A(arbol.get(0),0);         
+        else if(metodo.equals("A"))
+            busquedaA(arbol.get(0),0);         
     }
     
     
