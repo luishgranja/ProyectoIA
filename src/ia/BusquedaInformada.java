@@ -54,16 +54,16 @@ public class BusquedaInformada {
             if (prof < arbol.get(i).getProfundidad()) {
               if(arbol.get(i).getOperador()+1!=arbol.get(i).getPadre().getOperador() &&
               arbol.get(i).getOperador()-1!=arbol.get(i).getPadre().getOperador())
-                if (Math.max( Math.abs(arbol.get(i).getpX()-princesa[0]),Math.abs(arbol.get(i).getpY()-princesa[1]) ) < menor) {
-                    menor = Math.max( Math.abs(arbol.get(i).getpX()-princesa[0]),Math.abs(arbol.get(i).getpY()-princesa[1]));
+                if ( (Math.abs(princesa[0]-arbol.get(i).getpX()) + Math.abs(princesa[1])-arbol.get(i).getpY()) < menor) {
+                    menor = Math.abs(princesa[0]-arbol.get(i).getpX()) + Math.abs(princesa[1])-arbol.get(i).getpY();
                     auxPos = i;
                 }
             }            
           }
           else{
-            matriz[coordenada[0]][coordenada[1]] = 1;
+            matriz[arbol.get(pos).getpX()][arbol.get(pos).getpY()] = 1;
             arbol.remove(pos);
-            busquedaAvara(arbol.get(pos),pos);
+            auxPos = pos;
             break;
           }
  
@@ -88,16 +88,11 @@ public class BusquedaInformada {
     
     
     public void expandirNodos(int pos){
-        int[] coordenadas = new int[2];
         int x=0 , y=0;
        Boolean estado = false;
        
-       //posMov.clear();
-       posMov = indicaciones.posibilidades(matriz, arbol.get(pos).getpX(), arbol.get(pos).getpY());
-       
-       int [][] arregloCoordenadas = new int[2][posMov.size()];
-       
-       
+       posMov.clear();
+       posMov = indicaciones.posibilidades(matriz, arbol.get(pos).getpX(), arbol.get(pos).getpY());    
        if(!posMov.isEmpty()){
               for(int i=0; i<posMov.size();i++){
                 int lado = posMov.get(i);
@@ -129,8 +124,7 @@ public class BusquedaInformada {
                   }
                  
                  if(valor == 5)
-                     estado=true;
-                 
+                     estado=true;   
                 aux = new Nodo(estado, arbol.get(pos), lado, arbol.get(pos).getProfundidad()+1, costo+arbol.get(pos).getCosto(), arbol.get(pos).getpX()+x, arbol.get(pos).getpY()+y);
                 arbol.add(aux);
                      
