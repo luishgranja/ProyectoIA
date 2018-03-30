@@ -22,6 +22,7 @@ public class BusquedaInformada {
     int profundidad;
     ArrayList<Integer> camino;
     Boolean flor;
+    int[] princesa;
     
     
     
@@ -37,16 +38,39 @@ public class BusquedaInformada {
         posMov = new ArrayList<>();
         camino = new ArrayList<>();
         flor=false;
+        princesa = new int[2];
+        princesa = encontrarPrincesa();
     }
     
     
-    public int calcularDistancia(int[] a , int[] b){
-        int resultado;
+ public int calcularDistancia(int pos, int prof){
+        int menor = 100;
+        int auxPos = 0;
+        int[] coordenada = new int[2];
+        for (int i = 0; i < arbol.size(); i++) {
+          coordenada[0] = arbol.get(i).getpX();
+          coordenada[1] = arbol.get(i).getpY();
+          if(posMov.size()>1){
+            if (prof < arbol.get(i).getProfundidad()) {
+              if(arbol.get(i).getOperador()+1!=arbol.get(i).getPadre().getOperador() &&
+              arbol.get(i).getOperador()-1!=arbol.get(i).getPadre().getOperador())
+                if (Math.max( Math.abs(arbol.get(i).getpX()-princesa[0]),Math.abs(arbol.get(i).getpY()-princesa[1]) ) < menor) {
+                    menor = Math.max( Math.abs(arbol.get(i).getpX()-princesa[0]),Math.abs(arbol.get(i).getpY()-princesa[1]));
+                    auxPos = i;
+                }
+            }            
+          }
+          else{
+            matriz[coordenada[0]][coordenada[1]] = 1;
+            arbol.remove(pos);
+            busquedaAvara(arbol.get(pos),pos);
+            break;
+          }
+ 
+              }
         
-        resultado = Math.max( Math.abs(a[0]-b[0]),Math.abs(a[0]-b[0]) );
-        
-        return resultado;
-    }
+        return auxPos;
+ }
     
     public int[] encontrarPrincesa(){
         int[] coordenada = new int[2];
@@ -63,7 +87,7 @@ public class BusquedaInformada {
     }
     
     
-    public void expandirNodos(int pos, int lado){
+    public void expandirNodos(int pos){
         int[] coordenadas = new int[2];
         int x=0 , y=0;
        Boolean estado = false;
@@ -76,46 +100,33 @@ public class BusquedaInformada {
        
        if(!posMov.isEmpty()){
               for(int i=0; i<posMov.size();i++){
-                //int lado = posMov.get(i);
+                int lado = posMov.get(i);
                 int valor = 0;
                 int costo = 1;
-                
-                
-                
-                 switch (lado) {
+                switch (lado) {
                       case 1:
                           valor = matriz[arbol.get(pos).getpX()-1][arbol.get(pos).getpY()];
-                          coordenadas[0] = arbol.get(pos).getpX()-1 ;
-                          coordenadas[1] = arbol.get(pos).getpY();
                           x=-1;
                           y=0;
                           break;
                       case 2:
                           valor = matriz[arbol.get(pos).getpX()+1][arbol.get(pos).getpY()];
-                          coordenadas[0] = arbol.get(pos).getpX()+11 ;
-                          coordenadas[1] = arbol.get(pos).getpY();
                           x=1;
                           y=0;
                           break;
                       case 3:
                           valor = matriz[arbol.get(pos).getpX()][arbol.get(pos).getpY()-1];
-                          coordenadas[0] = arbol.get(pos).getpX() ;
-                          coordenadas[1] = arbol.get(pos).getpY()-1;
                           x = 0;
                           y = -1;
                           break;
                       case 4:
                           valor = matriz[arbol.get(pos).getpX()][arbol.get(pos).getpY()+1];
-                          coordenadas[0] = arbol.get(pos).getpX();
-                          coordenadas[1] = arbol.get(pos).getpY()+1;
                           x = 0;
                           y = 1;
                           break;
                       default:
                           break;
                   }
-                  
-                 arregloCoordenadas[i]= coordenadas;
                  
                  if(valor == 5)
                      estado=true;
@@ -125,35 +136,19 @@ public class BusquedaInformada {
                      
               }
               
-              int menor = 100;
-              int auxPos = 0;
-              for (int i = 0; i < arregloCoordenadas.length; i++) {
-                  if (calcularDistancia(arregloCoordenadas[i], encontrarPrincesa()) < menor) {
-                      menor = calcularDistancia(arregloCoordenadas[i], encontrarPrincesa());
-                      auxPos = i;
-                  }
-              }
-              if(aux.getEstado()==true){
-                            System.out.println("princesa");
-                            camino = indicaciones.miCamino(aux);               
-                        }else{
-                            expandirNodos(pos,posMov.get(auxPos));
-                        }
-              
-              
-              
        }
            
     }
     
-    public void busquedaAvara(Nodo miNodo, int pos){
+   public void busquedaAvara(Nodo miNodo, int pos){
         if(miNodo.getEstado()==true){
                    System.out.println("princesa");
                    camino = indicaciones.miCamino(miNodo);               
         }else{
-        
-        expandirNodos(pos,1);
-        arbol.remove(pos);
+          expandirNodos(pos);
+          int prof = miNodo.getProfundidad();
+          int siguiente = calcularDistancia(pos, prof);
+          busquedaAvara(arbol.get(siguiente),siguiente);
         }
         
     }

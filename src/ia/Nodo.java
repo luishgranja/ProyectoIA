@@ -61,8 +61,13 @@ public class Nodo {
         
     }
     */
-    
 
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+    
+    
+    
     public void setFlor(Boolean flor) {
         this.flor = flor;
     }
