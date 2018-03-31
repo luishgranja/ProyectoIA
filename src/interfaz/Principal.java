@@ -219,6 +219,13 @@ public class Principal extends javax.swing.JFrame {
         botonStart = new javax.swing.JButton();
         comboboxAux = new javax.swing.JComboBox<>();
         botonReset = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        campoNodos = new javax.swing.JTextField();
+        campoProfundidad = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        campoTiempo = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
         banner = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -262,6 +269,33 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Cantidad de Nodos Expandidos");
+
+        campoNodos.setText("0");
+        campoNodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoNodosActionPerformed(evt);
+            }
+        });
+
+        campoProfundidad.setText("0");
+        campoProfundidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoProfundidadActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Profundidad del Árbol");
+
+        campoTiempo.setText("0");
+        campoTiempo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoTiempoActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Tiempo de Computo");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -273,11 +307,18 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(botonStart)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(combobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(comboboxAux, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botonReset))
-                        .addGap(0, 125, Short.MAX_VALUE))))
+                            .addComponent(botonReset)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(campoNodos, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(campoProfundidad, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(campoTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator2))
+                        .addGap(0, 17, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -290,7 +331,21 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(botonStart)
                 .addGap(18, 18, 18)
                 .addComponent(botonReset)
-                .addContainerGap(166, Short.MAX_VALUE))
+                .addGap(20, 20, 20)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(campoNodos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(campoProfundidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(campoTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -302,16 +357,18 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(tablero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(banner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(banner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(banner, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 15, Short.MAX_VALUE)
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tablero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tablero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -389,9 +446,17 @@ public class Principal extends javax.swing.JFrame {
                     break;
                 default:
                     break;
-            }
-            
+            }   
         }
+        
+        //Borra la info antes de ingresarla
+        campoNodos.setText(null);
+        campoProfundidad.setText(null);
+        campoTiempo.setText(null);
+        
+        campoNodos.setText(""+expandidos);
+        campoProfundidad.setText(""+profundidad);
+        campoTiempo.setText(""+totalTime + " ms");
     }//GEN-LAST:event_botonStartActionPerformed
 
     private void comboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboboxActionPerformed
@@ -424,9 +489,27 @@ public class Principal extends javax.swing.JFrame {
         this.paintAll(this.getGraphics());
         flor = false;
         
+        //Borra los campos de informacion
+        campoNodos.setText(""+0);
+        campoProfundidad.setText(""+0);
+        campoTiempo.setText(""+0);
+        
+        
         //se activa el boton para poder dar uso de los metodos de busqueda otra vez
         botonStart.setEnabled(true);
     }//GEN-LAST:event_botonResetActionPerformed
+
+    private void campoNodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoNodosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoNodosActionPerformed
+
+    private void campoProfundidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoProfundidadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoProfundidadActionPerformed
+
+    private void campoTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoTiempoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoTiempoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -469,9 +552,16 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel banner;
     private javax.swing.JButton botonReset;
     private javax.swing.JButton botonStart;
+    private javax.swing.JTextField campoNodos;
+    private javax.swing.JTextField campoProfundidad;
+    private javax.swing.JTextField campoTiempo;
     private javax.swing.JComboBox<String> combobox;
     private javax.swing.JComboBox<String> comboboxAux;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPanel tablero;
     // End of variables declaration//GEN-END:variables
 }
