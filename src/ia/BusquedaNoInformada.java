@@ -22,6 +22,7 @@ public class BusquedaNoInformada {
     int profundidad;
     ArrayList<Integer> camino;
     Boolean flor;
+    int expandidos;
     
     public BusquedaNoInformada(){  
         matriz = cargarCamino.cargarArchivo();
@@ -34,6 +35,7 @@ public class BusquedaNoInformada {
         posMov = new ArrayList<>();
         camino = new ArrayList<>();
         flor=false;
+        int expandidos = 0;
     }
     /**
      * 
@@ -80,6 +82,7 @@ public class BusquedaNoInformada {
 
 
     public void expandirNodos(int pos,boolean noCiclos){
+        expandidos++;
         int x=0 , y=0;
        Boolean estado = false;
        posMov.clear();
@@ -119,8 +122,11 @@ public class BusquedaNoInformada {
                      estado=true;
                  else if(valor == 4 && !flor)
                       costo+=7;  
-                aux = new Nodo(estado, arbol.get(pos), lado, arbol.get(pos).getProfundidad()+1, costo+arbol.get(pos).getCosto(), arbol.get(pos).getpX()+x, arbol.get(pos).getpY()+y);
+                int miProfundidad = arbol.get(pos).getProfundidad()+1;
+                 aux = new Nodo(estado, arbol.get(pos), lado, miProfundidad, costo+arbol.get(pos).getCosto(), arbol.get(pos).getpX()+x, arbol.get(pos).getpY()+y);
                 arbol.add(aux);
+                if(miProfundidad > profundidad)
+                    profundidad = miProfundidad;
                 if(noCiclos){
                      matriz[arbol.get(arbol.size()-1).getpX()][arbol.get(arbol.size()-1).getpY()]=1;
                       if(aux.getEstado()==true){
@@ -183,5 +189,15 @@ public class BusquedaNoInformada {
     public ArrayList<Integer> getCamino(){
         return camino;
     }   
+
+    public int getExpandidos() {
+        return expandidos;
+    }
+
+    public int getProfundidad() {
+        return profundidad;
+    }
     
+
+
 }

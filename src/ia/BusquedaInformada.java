@@ -19,13 +19,12 @@ public class BusquedaInformada {
     int[] mario;
     Nodo aux;
     ArrayList<Integer> posMov;
-    int profundidad;
     ArrayList<Integer> camino;
     Boolean flor;
     int[] princesa;
-    
-    
-    
+    int expandidos;
+    int profundidad;
+        
     
     public BusquedaInformada(){
         matriz = cargarCamino.cargarArchivo();
@@ -40,6 +39,9 @@ public class BusquedaInformada {
         flor=false;
         princesa = new int[2];
         princesa = encontrarPrincesa();
+        expandidos = 0;
+        profundidad = 0;
+
     }
   
   public int distancia(Nodo miNodo){
@@ -50,10 +52,7 @@ public class BusquedaInformada {
  public int calcularHeuristica(int pos, int prof, Boolean a){
         int menor = 100;
         int auxPos = 0;
-        int[] coordenada = new int[2];
         for (int i = 0; i < arbol.size(); i++) {
-          coordenada[0] = arbol.get(i).getpX();
-          coordenada[1] = arbol.get(i).getpY();
           if(posMov.size()>1){
             if (prof < arbol.get(i).getProfundidad()) {
               if(arbol.get(i).getOperador()+1!=arbol.get(i).getPadre().getOperador() &&
@@ -102,6 +101,7 @@ public class BusquedaInformada {
     
     
     public void expandirNodos(int pos){
+        expandidos++;
         int x=0 , y=0;
        Boolean estado = false;
        
@@ -141,10 +141,12 @@ public class BusquedaInformada {
                  else if(valor == 5)
                      estado=true;
                  else if(valor == 4 && !flor)
-                      costo+=7;   
-                aux = new Nodo(estado, arbol.get(pos), lado, arbol.get(pos).getProfundidad()+1, costo+arbol.get(pos).getCosto(), arbol.get(pos).getpX()+x, arbol.get(pos).getpY()+y);
+                      costo+=7; 
+                 int miProfundidad = arbol.get(pos).getProfundidad()+1;
+                aux = new Nodo(estado, arbol.get(pos), lado, miProfundidad, costo+arbol.get(pos).getCosto(), arbol.get(pos).getpX()+x, arbol.get(pos).getpY()+y);
                 arbol.add(aux);
-                     
+                if(miProfundidad > profundidad)
+                    profundidad = miProfundidad;
               }
               
        }
@@ -187,5 +189,14 @@ public class BusquedaInformada {
     public ArrayList<Integer> getCamino(){
         return camino;
     }
+
+    public int getExpandidos() {
+        return expandidos;
+    }
+
+    public int getProfundidad() {
+        return profundidad;
+    }
+    
     
 }

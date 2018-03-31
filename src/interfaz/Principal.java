@@ -320,23 +320,43 @@ public class Principal extends javax.swing.JFrame {
 
     
     private void botonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonStartActionPerformed
+        long startTime = 0;
+        long endTime = 0;
+        long totalTime = 0;
+        int expandidos = 0;
+        int profundidad = 0;
         if (combobox.getSelectedIndex() == 0) {
             
             switch (comboboxAux.getSelectedIndex()) {
                 case 0:
                     BusquedaNoInformada amplitud = new BusquedaNoInformada();
+                    startTime = System.currentTimeMillis();
                     amplitud.crearArbol("Amplitud");
+                    endTime = System.currentTimeMillis();
+                    totalTime = endTime - startTime; //en Milisegundos
+                    expandidos = amplitud.getExpandidos(); //Nodos Expandidos
+                    profundidad = amplitud.getProfundidad(); //Profundidad del Arbol
                     modificarCamino(amplitud.getCamino());
                     break;
                 case 1:
                     BusquedaNoInformada costoUniforme = new BusquedaNoInformada();
+                    startTime = System.currentTimeMillis();
                     costoUniforme.crearArbol("Costo");
+                    endTime = System.currentTimeMillis();
+                    totalTime = endTime - startTime; //en Milisegundos
+                    expandidos = costoUniforme.getExpandidos(); //Nodos Expandidos
+                    profundidad = costoUniforme.getProfundidad(); //Profundidad del Arbol
                     modificarCamino(costoUniforme.getCamino());
                     break;
                 case 2:
-                   BusquedaNoInformada profundidad = new BusquedaNoInformada();
-                    profundidad.crearArbol("Profundidad");
-                    modificarCamino(profundidad.getCamino());
+                   BusquedaNoInformada profundidadC = new BusquedaNoInformada();
+                   startTime = System.currentTimeMillis();
+                    profundidadC.crearArbol("Profundidad");
+                    endTime = System.currentTimeMillis();
+                    totalTime = endTime - startTime; //en Milisegundos
+                    expandidos = profundidadC.getExpandidos(); //Nodos Expandidos
+                    profundidad = profundidadC.getProfundidad(); //Profundidad del Arbol
+                    modificarCamino(profundidadC.getCamino());
                     break;
                 default:
                     break;
@@ -349,13 +369,23 @@ public class Principal extends javax.swing.JFrame {
             switch (comboboxAux.getSelectedIndex()) {
                 case 0:
                     BusquedaInformada avara = new BusquedaInformada();
+                    startTime = System.currentTimeMillis();
                     avara.crearArbol("Avara");
+                    endTime = System.currentTimeMillis();
+                    totalTime = endTime - startTime; //en Milisegundos
+                    expandidos = avara.getExpandidos(); //Nodos Expandidos
+                    profundidad = avara.getProfundidad(); //Profundidad del Arbol
                     modificarCamino(avara.getCamino());
                     break;
                 case 1:
-                    BusquedaNoInformada costoUniforme = new BusquedaNoInformada();
-                    costoUniforme.crearArbol("Costo");
-                    modificarCamino(costoUniforme.getCamino());
+                    BusquedaInformada a = new BusquedaInformada();
+                    startTime = System.currentTimeMillis();
+                    a.crearArbol("A");
+                    endTime = System.currentTimeMillis();
+                    totalTime = endTime - startTime; //en Milisegundos
+                    expandidos = a.getExpandidos(); //Nodos Expandidos
+                    profundidad = a.getProfundidad(); //Profundidad del Arbol
+                    modificarCamino(a.getCamino());
                     break;
                 default:
                     break;
