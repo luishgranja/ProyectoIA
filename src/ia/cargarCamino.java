@@ -24,7 +24,7 @@ public class cargarCamino {
     }
     
     public static int[][] cargarArchivo(){
-        File archivo = new File ("Prueba1.txt");
+        File archivo = new File ("Prueba4.txt");
         int matriz[][] = new int[10][10];
         try {
             FileReader fr = new FileReader (archivo);

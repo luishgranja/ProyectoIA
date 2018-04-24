@@ -21,7 +21,7 @@ public class BusquedaNoInformada {
     ArrayList<Integer> posMov;
     int profundidad;
     ArrayList<Integer> camino;
-    Boolean flor;
+    int flor;
     int expandidos;
     
     public BusquedaNoInformada(){  
@@ -34,7 +34,7 @@ public class BusquedaNoInformada {
         arbol.add(aux);
         posMov = new ArrayList<>();
         camino = new ArrayList<>();
-        flor=false;
+        flor=0;
         int expandidos = 0;
     }
     /**
@@ -46,13 +46,18 @@ public class BusquedaNoInformada {
         int pos = 0;
         for (int i = 0; i < arbol.size(); i++) {
             if (arbol.get(i).getCosto() < menor) {
-                
                 if(arbol.get(i).getPadre().getOperador()!=0){
+                    if(arbol.get(i).getPadre().getFlor()==0){
                         if(arbol.get(i).getOperador()+1!=arbol.get(i).getPadre().getOperador() &&
-                        arbol.get(i).getOperador()-1!=arbol.get(i).getPadre().getOperador() ){
+                        arbol.get(i).getOperador()-1!=arbol.get(i).getPadre().getOperador()){
+                            menor = arbol.get(i).getCosto();
+                            pos = i;   
+                        }
+                    }
+                    else{
                         menor = arbol.get(i).getCosto();
-                        pos = i;   
-                    }        
+                        pos = i; 
+                    }   
                 }
                 else{
                      menor = arbol.get(i).getCosto();
@@ -85,6 +90,7 @@ public class BusquedaNoInformada {
         expandidos++;
         int x=0 , y=0;
        Boolean estado = false;
+       flor=0;
        posMov.clear();
        posMov = indicaciones.posibilidades(matriz, arbol.get(pos).getpX(), arbol.get(pos).getpY());
        if(!posMov.isEmpty()){
@@ -116,15 +122,16 @@ public class BusquedaNoInformada {
                       default:
                           break;
                   }
-                 if(valor==3)
-                     flor=true;
-                 else if(valor == 5)
+                 if(valor==3 || arbol.get(pos).getFlor()==1)
+                     flor=1;
+                 if(arbol.get(pos).getFlor()==0 && valor ==4) 
+                     costo+=7;
+                 if(valor == 5)
                      estado=true;
-                 else if(valor == 4 && !flor)
-                      costo+=7;  
                 int miProfundidad = arbol.get(pos).getProfundidad()+1;
                  aux = new Nodo(estado, arbol.get(pos), lado, miProfundidad, costo+arbol.get(pos).getCosto(), arbol.get(pos).getpX()+x, arbol.get(pos).getpY()+y);
-                arbol.add(aux);
+                 aux.setFlor(flor);
+                 arbol.add(aux);
                 if(miProfundidad > profundidad)
                     profundidad = miProfundidad;
                 if(noCiclos){
@@ -169,6 +176,8 @@ public class BusquedaNoInformada {
         }
        else{
        expandirNodos(pos,false);
+       if(miNodo.getPadre()!=null)
+            System.out.println("Expande: "+miNodo.getpX()+","+miNodo.getpY()+" desde "+miNodo.getPadre().getpX()+","+miNodo.getPadre().getpY()+" costando: "+miNodo.getCosto());
        arbol.remove(pos);
         int nodo = buscarMenor();
        costoUniforme(arbol.get(nodo),nodo);
@@ -180,8 +189,8 @@ public class BusquedaNoInformada {
     public void crearArbol(String metodo){ 
         if(metodo.equals("Amplitud"))
             amplitud(arbol.get(0),0); 
-        else if(metodo.equals("Costo"))
-            costoUniforme(arbol.get(0),0); 
+        else if(metodo.equals("Costo"))     
+            costoUniforme(arbol.get(0),0);            
         else if(metodo.equals("Profundidad"))
             expandirNodos(0,true);         
     }

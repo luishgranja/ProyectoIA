@@ -17,7 +17,7 @@ public class Nodo {
     int costo;
     int pX;
     int pY;
-    Boolean flor;
+    int flor;
     
     public Nodo() {
     
@@ -26,7 +26,7 @@ public class Nodo {
     operador = 0;
     profundidad = 0;
     costo = 0;
-    flor = false;
+    flor = 0;
     pX = 0;
     pY = 0;
 }
@@ -68,7 +68,7 @@ public class Nodo {
     
     
     
-    public void setFlor(Boolean flor) {
+    public void setFlor(int flor) {
         this.flor = flor;
     }
 
@@ -92,7 +92,7 @@ public class Nodo {
         return costo;
     }
 
-    public Boolean getFlor() {
+    public int getFlor() {
         return flor;
     }
 

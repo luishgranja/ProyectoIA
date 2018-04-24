@@ -20,7 +20,7 @@ public class BusquedaInformada {
     Nodo aux;
     ArrayList<Integer> posMov;
     ArrayList<Integer> camino;
-    Boolean flor;
+    int flor;
     int[] princesa;
     int expandidos;
     int profundidad;
@@ -36,7 +36,7 @@ public class BusquedaInformada {
         arbol.add(aux);
         posMov = new ArrayList<>();
         camino = new ArrayList<>();
-        flor=false;
+        flor=0;
         princesa = new int[2];
         princesa = encontrarPrincesa();
         expandidos = 0;
@@ -53,32 +53,47 @@ public class BusquedaInformada {
         int menor = 100;
         int auxPos = 0;
         for (int i = 0; i < arbol.size(); i++) {
-          if(posMov.size()>1){
+          if(posMov.size()>1 || arbol.get(pos).getFlor()==1){
             if (prof < arbol.get(i).getProfundidad()) {
-              if(arbol.get(i).getOperador()+1!=arbol.get(i).getPadre().getOperador() &&
-              arbol.get(i).getOperador()-1!=arbol.get(i).getPadre().getOperador()){
-                if(a){
-                    if ( (distancia(arbol.get(i)) + arbol.get(i).getCosto()  < menor) ) {
-                    menor = distancia(arbol.get(i)) + arbol.get(i).getCosto() ;
-                    auxPos = i;
+                if(arbol.get(pos).getFlor()==0){
+                    if(arbol.get(i).getOperador()+1!=arbol.get(i).getPadre().getOperador() &&
+                        arbol.get(i).getOperador()-1!=arbol.get(i).getPadre().getOperador()){
+                        if(a){
+                            if ( (distancia(arbol.get(i)) + arbol.get(i).getCosto()  < menor) ) {
+                                menor = distancia(arbol.get(i)) + arbol.get(i).getCosto() ;
+                                auxPos = i;
                 	}                  
+                        }
+                        else{
+                            if ( distancia(arbol.get(i)) < menor) {
+                                menor = distancia(arbol.get(i));
+                                auxPos = i;
+                	}                    
+                        }              
+                    }
                 }
                 else{
-                    if ( distancia(arbol.get(i)) < menor) {
-                    menor = distancia(arbol.get(i));
-                    auxPos = i;
+                      if(a){
+                            if ( (distancia(arbol.get(i)) + arbol.get(i).getCosto()  < menor) ) {
+                                menor = distancia(arbol.get(i)) + arbol.get(i).getCosto() ;
+                                auxPos = i;
+                	}                  
+                        }
+                      else{
+                            if ( distancia(arbol.get(i)) < menor) {
+                                menor = distancia(arbol.get(i));
+                                auxPos = i;
                 	}                    
-                }              
-              }
-
-            }            
+                        }
+                    }
+                }            
           }
           else{
-            matriz[arbol.get(pos).getpX()][arbol.get(pos).getpY()] = 1;
-            arbol.remove(pos);
-            auxPos = pos;
-            break;
-          }
+              matriz[arbol.get(pos).getpX()][arbol.get(pos).getpY()] = 1;
+              arbol.remove(pos);
+              auxPos = pos;
+              break;                  
+            }
  
               }
         
@@ -104,7 +119,7 @@ public class BusquedaInformada {
         expandidos++;
         int x=0 , y=0;
        Boolean estado = false;
-       
+       flor=0;
        posMov.clear();
        posMov = indicaciones.posibilidades(matriz, arbol.get(pos).getpX(), arbol.get(pos).getpY());    
        if(!posMov.isEmpty()){
@@ -136,15 +151,16 @@ public class BusquedaInformada {
                       default:
                           break;
                   }
-                 if(valor==3)
-                     flor=true;
-                 else if(valor == 5)
+                 if(valor==3 || arbol.get(pos).getFlor()==1)
+                     flor=1;
+                 if(arbol.get(pos).getFlor()==0 && valor ==4) 
+                     costo+=7;
+                 if(valor == 5)
                      estado=true;
-                 else if(valor == 4 && !flor)
-                      costo+=7; 
-                 int miProfundidad = arbol.get(pos).getProfundidad()+1;
-                aux = new Nodo(estado, arbol.get(pos), lado, miProfundidad, costo+arbol.get(pos).getCosto(), arbol.get(pos).getpX()+x, arbol.get(pos).getpY()+y);
-                arbol.add(aux);
+                int miProfundidad = arbol.get(pos).getProfundidad()+1;
+                 aux = new Nodo(estado, arbol.get(pos), lado, miProfundidad, costo+arbol.get(pos).getCosto(), arbol.get(pos).getpX()+x, arbol.get(pos).getpY()+y);
+                 aux.setFlor(flor);
+                 arbol.add(aux);
                 if(miProfundidad > profundidad)
                     profundidad = miProfundidad;
               }
